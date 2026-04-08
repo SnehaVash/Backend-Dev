@@ -1,0 +1,82 @@
+db.createCollection('students');
+
+
+db.students.insertOne({
+    name: "Sneha Vashishtha",
+    email: "sneha@gmail.com",
+    gpa: 3.6,
+    city: "Delhi",
+    department: "CSE",
+    courses: ["DBMS", "OS", "CN"]
+})
+
+
+db.students.insertMany([
+    {
+        name: "Sneha Vashishtha",
+        email: "sneha@gmail.com",
+        gpa: 3.6,
+        city: "Delhi",
+        department: "CSE",
+        courses: ["DBMS", "OS", "CN"]
+    },
+    {
+        name: "Rahul Sharma",
+        email: "rahul@gmail.com",
+        gpa: 3.2,
+        city: "Mumbai",
+        department: "IT",
+        courses: ["Java", "DSA", "CN", "OS", "DBMS", "AI"]
+    },
+    {
+        name: "Ananya Singh",
+        email: "ananya@gmail.com",
+        gpa: 3.8,
+        city: "Delhi",
+        department: "CSE",
+        courses: ["DBMS", "ML", "AI"]
+    }
+]);
+
+
+db.students.find();
+
+
+db.students.find({
+    email: { $regex: "@gmail\\.com$", $options: "i" }
+})
+
+
+db.students.updateOne(
+    { email: "sneha@gmail.com" },
+    { $set: { gpa: 3.9 } }
+)
+
+
+db.students.deleteOne({ email: "sneha@gmail.com" })
+
+
+db.students.find({
+    gpa: { $gte: 3.0, $lte: 3.5 }
+})
+
+
+db.students.find({
+    courses: { $size: 6 }
+})
+
+
+db.students.find().sort({ gpa: -1 }).limit(10)
+
+
+db.students.aggregate([
+    {
+        $group: {
+            _id: "$city",
+            totalStudents: { $sum: 1 }
+        }
+    }
+])
+
+
+
